@@ -1,0 +1,23 @@
+﻿extends layout
+
+block content
+  table(class="logocontainer")
+    tr  
+        td
+            img(class="logo")
+  hr
+  table(cellspacing="2",cellpadding="3")
+           tr
+                td
+                    span Look For:
+                td
+                    select(id="ddlTypeOfMedia")
+                td  
+                    span Path:
+                td
+                    input(type="text", name="dirLocation",size="100") 
+                    input(type="button",name="findFiles",value="Find")
+                td
+                    img(class="caston" , src="../images/casticon_on.png") 
+  h4.headerFiles
+  div.files
