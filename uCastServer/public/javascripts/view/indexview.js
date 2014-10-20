@@ -2,8 +2,11 @@
     require(["jquery" ,"jqueryui", "underscore" ,"chromecast",  "databinder"], function ($ ,jqui, _, castapp, binder) {
         var castApp = new castapp();
         var arrFiles = [];
+        var progressBar = {};
+        var playerTimer = {};
         $(document).ready(function () {
             $(".player").hide();
+           // $(".playerHeader").text("Now Playing Big Boss");
             $(".caston").click(function () {
                 castApp.requestSession(function (){
                     $(".caston").attr("src" , "../images/casticon_on.png");
@@ -23,7 +26,7 @@
                     $('.files').html('');
                     if (files.length > 0) $('.headerFiles').html("Following files found");
                     else $('.headerFiles').html("No playable files found:");
-                    $.bindFiles(arrFiles);
+                    $.bindFiles(arrFiles, castMe);
                     
                 });
             }
@@ -46,9 +49,23 @@
         var initPlayer = function (fileName) {
             $(".playerHeader").text("Now Playing " + fileName);
             $("#imgPlayPause").attr("src" , "../../images/pause.png");
-            $(".progressbar").progressbar();
+            progressBar = $(".progressbar").progressbar();
+            playerTimer = setTimeout(progress, 2000);
             $(".player").show();
         };
+        var progress = function () {
+            var val = progressBar.progressbar("value") || 0;
+            if (castApp.currentMedia && castApp.currentMedia.media && castApp.currentMedia.media.duration != null) {
+                var currentTime = castApp.currentMedia.getEstimatedTime();
+                var progressValue = parseInt(100 * currentTime / castApp.currentMedia.media.duration);
+                progressBar.progressbar("value", val + progressValue);
+                
+                if (val <= 99) {
+                    progressTimer = setTimeout(progress, 1000);
+                }
+            }
+        };
+       
         
          
     });

@@ -3,7 +3,7 @@
         var session;
         var currentMediaUrl = (mediaUrl ? mediaUrl : "");
         var __me = this;
-        var currentMedia;
+        this.currentMedia;
         var timer;
         this.onSessionDestroyed = function () { 
             
@@ -67,8 +67,8 @@
             
         };
         var onMediaDiscovered = function(how, media, onSuccess, onError) {
-            currentMedia = media;
-            currentMedia.play(null , function () {
+            this.currentMedia = media;
+            this.currentMedia.play(null , function () {
                 mediaCommandSuccess();
                 if (onSuccess) onSuccess();
             } , function (e) {

@@ -34,3 +34,6 @@ a {
   height: 37px;
   cursor: pointer;
 }
+.progressbar {
+  display: inline;
+}

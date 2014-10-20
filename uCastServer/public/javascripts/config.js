@@ -8,7 +8,7 @@
         underscore: 'libs/underscore-min',
         cast_sender : 'https://www.gstatic.com/cv/js/sender/v1/cast_sender',
         chromecast : 'modules/chromecast',
-        databinder : 'modules/view/DataBinder'
+        databinder : 'view/DataBinder'
     }
 }
 );
