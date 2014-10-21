@@ -20,18 +20,23 @@ block content
                 td
                     img(class="caston" , src="../images/casticon_on.png") 
 
+  
   div.player
-    table(cellspacing="3",cellpadding="3")
+    table(cellspacing="3",cellpadding="3",width="100%")
         tr
             td
                 span.playerHeader
                 hr
         tr
             td
-                img(id="imgStop", src="../images/stop.png")
-                &nbsp;&nbsp;
-                img(id="imgPlayPause", src ="../images/pause.png")
-                div.progressbar
+                table(width="100%")
+                    tr
+                       td(width="5%")
+                          img.mediacontrol(id="imgStop", src="../images/stop.png")
+                          &nbsp;&nbsp;
+                          img.mediacontrol(id="imgPlayPause", src ="../images/pause.png")
+                       td(width="90%")
+                          div(id="progressbar", style="height:20px")
   br
   h4.headerFiles
   div.files

@@ -7,7 +7,8 @@
         datatables: 'libs/jquery.dataTables.min',
         underscore: 'libs/underscore-min',
         cast_sender : 'https://www.gstatic.com/cv/js/sender/v1/cast_sender',
-        chromecast : 'modules/chromecast'
+        chromecast : 'modules/chromecast',
+        databinder : 'view/DataBinder'
     }
 }
 );

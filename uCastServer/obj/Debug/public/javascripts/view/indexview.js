@@ -1,8 +1,12 @@
 ﻿require(["../config"], function (config) {
-    require(["jquery" ,"jqueryui", "underscore" ,"chromecast", "datatables"], function ($ ,jqui, _, castapp, dt) {
+    require(["jquery" ,"jqueryui", "underscore" ,"chromecast",  "databinder"], function ($ ,jqui, _, castapp, binder) {
         var castApp = new castapp();
         var arrFiles = [];
+        var progressBar = {};
+        var playerTimer = {};
         $(document).ready(function () {
+            $(".player").hide();
+           // $(".playerHeader").text("Now Playing Big Boss");
             $(".caston").click(function () {
                 castApp.requestSession(function (){
                     $(".caston").attr("src" , "../images/casticon_on.png");
@@ -22,48 +26,49 @@
                     $('.files').html('');
                     if (files.length > 0) $('.headerFiles').html("Following files found");
                     else $('.headerFiles').html("No playable files found:");
-                    bindFiles();
+                    $.bindFiles(arrFiles, castMe);
                     
                 });
             }
-            );
+);
+            castApp.onSessionDestroyed = function () {
+                $(".player").hide();
+            };
+        
         });
-        var bindFiles = function () {
-            $('.files').html('<table id="tblFiles" class="display" cellspacing="0" width="100%"></table>');
-            var data = "<thead><tr><th align='left'>File Name</th></tr></thead>";
-            $('#tblFiles').append(data);
-            var d = _.map(arrFiles , function (f) { return [f.FileName]; });
-            $('#tblFiles').dataTable({
-                "aaData": d,
-                "bSort": false,
-                "bFilter": false,
-                "bJQueryUI": true,
-                "bInfo": false,
-                "bPaginate": false,
-                "fnRowCallback": function (nRow, aData, iDisplayIndex) {
-                    $('td:eq(0)' , nRow).html('<a class="GridLink click">' + aData[0] + '</a>');
-                    $('td:eq(0)' , nRow).append('<br/><img class="imgControl'+iDisplayIndex+'" src="../../images/forward_enabled_hover.png"></img>');
-                     $('td:eq(0)' , nRow).append('<div style="display:inline;" class="pg'+iDisplayIndex+'"></div>');
-                    //$('td:eq(0)' , nRow).append('hi pg' + iDisplayIndex + '');
-                    $('.click', nRow).css('cursor', 'pointer');
-                    $('.click', nRow).click(function () { castMe(aData[0], iDisplayIndex); });
-                    $(".imgControl" + iDisplayIndex).hide();
-                }
-            });
-            
-        };
+       
         var castMe = function (fileName, index) {
             var path = $("input[name='dirLocation']").val();
             var fileInfo = _.filter(arrFiles , function (f) { return f.FileName == fileName; });
             var mediaUrl = "http://" + $(location).attr('host') + "/streamer?q=" + path + "\\" + fileName;
-            castApp.uCast(mediaUrl , fileInfo[0].ContentType , function () { 
-                showProgressBar(index);
+            castApp.uCast(mediaUrl , fileInfo[0].ContentType , function () {
+                initPlayer(fileName);
+                
             });
         }
-
-        var showProgressBar = function (index) { 
-            $(".pg" + index).progressbar();
+        var initPlayer = function (fileName) {
+            $(".playerHeader").text("Now Playing " + fileName);
+            $("#imgPlayPause").attr("src" , "../../images/pause.png");
+            progressBar = $(".progressbar").progressbar();
+            playerTimer = setTimeout(progress, 2000);
+            $(".player").show();
         };
+        var progress = function () {
+            var val = progressBar.progressbar("value") || 0;
+            if (castApp.currentMedia && castApp.currentMedia.media && castApp.currentMedia.media.duration != null) {
+                var currentTime = castApp.currentMedia.getEstimatedTime();
+                var progressValue = parseInt(100 * currentTime / castApp.currentMedia.media.duration);
+                progressBar.progressbar("value", val + progressValue);
+                
+                if (val <= 99) {
+                    progressTimer = setTimeout(progress, 1000);
+                }
+            }
+            else
+                setTimeout(progress, 1000);
+        };
+       
+        
          
     });
 });

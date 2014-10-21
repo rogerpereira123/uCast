@@ -1,12 +1,16 @@
 ﻿require(["../config"], function (config) {
     require(["jquery" ,"jqueryui", "underscore" ,"chromecast",  "databinder"], function ($ ,jqui, _, castapp, binder) {
-        var castApp = new castapp();
+        var castApp = new castapp(function () {
+            $(".caston").attr("src" , "../images/casticon_on.png");
+            $(".caston").show();
+        });
         var arrFiles = [];
         var progressBar = {};
         var playerTimer = {};
         $(document).ready(function () {
             $(".player").hide();
-           // $(".playerHeader").text("Now Playing Big Boss");
+            //$("#progressbar").progressbar();
+           //$(".playerHeader").text("Now Playing Big Boss");
             $(".caston").click(function () {
                 castApp.requestSession(function (){
                     $(".caston").attr("src" , "../images/casticon_on.png");
@@ -49,8 +53,8 @@
         var initPlayer = function (fileName) {
             $(".playerHeader").text("Now Playing " + fileName);
             $("#imgPlayPause").attr("src" , "../../images/pause.png");
-            progressBar = $(".progressbar").progressbar();
-            playerTimer = setTimeout(progress, 2000);
+            progressBar = $("#progressbar").progressbar();
+            playerTimer = setTimeout(progress, 500);
             $(".player").show();
         };
         var progress = function () {
@@ -58,12 +62,16 @@
             if (castApp.currentMedia && castApp.currentMedia.media && castApp.currentMedia.media.duration != null) {
                 var currentTime = castApp.currentMedia.getEstimatedTime();
                 var progressValue = parseInt(100 * currentTime / castApp.currentMedia.media.duration);
-                progressBar.progressbar("value", val + progressValue);
+                progressBar.progressbar("value",  progressValue);
                 
                 if (val <= 99) {
-                    progressTimer = setTimeout(progress, 1000);
+                    progressTimer = setTimeout(progress, 500);
                 }
+                else
+                    $(".player").hide();
             }
+            else if(castApp.session)
+                setTimeout(progress, 1000);
         };
        
         

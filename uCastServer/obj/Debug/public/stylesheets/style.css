@@ -11,6 +11,13 @@ html {
 table.logocontainer td {
   text-align: left;
 }
+.player {
+  border: 1px solid;
+  border-radius: 5px;
+}
+div.player table {
+  width: 100%;
+}
 body {
   padding: 10px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
@@ -26,4 +33,7 @@ a {
   width: 51px;
   height: 37px;
   cursor: pointer;
+}
+.progressbar {
+  display: inline;
 }

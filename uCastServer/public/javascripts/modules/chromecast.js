@@ -1,9 +1,9 @@
 ﻿define(["jquery" , "cast_sender"] , function ($, castsender) {
-    var castapp = function (mediaUrl) {
-        var session;
-        var currentMediaUrl = (mediaUrl ? mediaUrl : "");
+    var castapp = function (onCastApiInitialized) {
+        this.session;
+        var currentMediaUrl = "";
         var __me = this;
-        this.currentMedia;
+        this.currentMedia = {};
         var timer;
         this.onSessionDestroyed = function () { 
             
@@ -29,17 +29,17 @@
             }, onLaunchError);
         };
         var onRequestSessionSuccess = function (e) {
-            session = e;
-            session.addUpdateListener(sessionUpdateListener);
-            if (session.media.length != 0) {
-                onMediaDiscovered('requestSession', session.media[0]);
+            __me.session = e;
+            __me.session.addUpdateListener(sessionUpdateListener);
+            if (__me.session.media.length != 0) {
+                onMediaDiscovered('requestSession', this.session.media[0]);
             }
            // session.addMediaListener(onMediaDiscovered);
             
         };
         var sessionUpdateListener = function(isAlive) {
             if (!isAlive) {
-                session = null;
+                __me.session = null;
                 console.log("Session ended");
                 if (__me.onSessionDestroyed) __me.onSessionDestroyed();
             }
@@ -56,19 +56,19 @@
             var request = new chrome.cast.media.LoadRequest(mediaInfo);
             request.autoplay = true;
             request.currentTime = 0;
-            if (!session) {
+            if (!this.session) {
                 console.log("There is no session..");
                 return;
             }
-            session.loadMedia(request, function (media) { onMediaDiscovered("loadMedia" , media, onSuccess , onError); }, function (e) { 
+            this.session.loadMedia(request, function (media) { onMediaDiscovered("loadMedia" , media, onSuccess , onError); }, function (e) { 
                 onMediaError(e);
                 if (onError) onError();
                 });
             
         };
         var onMediaDiscovered = function(how, media, onSuccess, onError) {
-            this.currentMedia = media;
-            this.currentMedia.play(null , function () {
+            __me.currentMedia = media;
+            __me.currentMedia.play(null , function () {
                 mediaCommandSuccess();
                 if (onSuccess) onSuccess();
             } , function (e) {
@@ -88,10 +88,10 @@
         };
         var sessionListener = function (e) {
             console.log("Got session: Id: " + e.sessionId );
-            session = e;
-            session.addUpdateListener(sessionUpdateListener);
-            if (session.media.length != 0) {
-                onMediaDiscovered('sessionListener', session.media[0]);
+            __me.session = e;
+            __me.session.addUpdateListener(sessionUpdateListener);
+            if (__me.session.media.length != 0) {
+                onMediaDiscovered('sessionListener', __me.session.media[0]);
             }
            // session.addMediaListener(onMediaDiscovered);
 
@@ -104,7 +104,7 @@
         };
         var onInitSuccess = function (e) {
             console.log("app initialized!!");
-         
+            if (onCastApiInitialized) onCastApiInitialized();
             
         };
         var onError = function (e) {

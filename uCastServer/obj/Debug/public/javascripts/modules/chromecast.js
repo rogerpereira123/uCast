@@ -3,13 +3,16 @@
         var session;
         var currentMediaUrl = (mediaUrl ? mediaUrl : "");
         var __me = this;
-        var currentMedia;
+        this.currentMedia = {};
         var timer;
-       
+        this.onSessionDestroyed = function () { 
+            
+        };
         this.setMediaUrl = function (url) { 
             if (url) currentMediaUrl = url;
         };
         this.initializeCastApi = function () {
+            
             var sessionRequest = new chrome.cast.SessionRequest(chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID);
             
             var apiConfig = new chrome.cast.ApiConfig(sessionRequest, sessionListener, receiverListener);
@@ -19,6 +22,7 @@
             setTimeout(this.initializeCastApi, 1000);
         }
         this.requestSession = function (onSessionSuccess, onLaunchError) {
+            
             chrome.cast.requestSession(function (e) {
                 onRequestSessionSuccess(e);
                 if (onSessionSuccess) onSessionSuccess();
@@ -33,8 +37,12 @@
            // session.addMediaListener(onMediaDiscovered);
             
         };
-        var sessionUpdateListener = function(isAlive) { 
-            if (!isAlive) session = null;
+        var sessionUpdateListener = function(isAlive) {
+            if (!isAlive) {
+                session = null;
+                console.log("Session ended");
+                if (__me.onSessionDestroyed) __me.onSessionDestroyed();
+            }
         };
         /*var onLaunchError = function (e) { 
             console.log("There was an error launching cast extension: " + e.code);
@@ -59,8 +67,8 @@
             
         };
         var onMediaDiscovered = function(how, media, onSuccess, onError) {
-            currentMedia = media;
-            currentMedia.play(null , function () {
+            this.currentMedia = media;
+            this.currentMedia.play(null , function () {
                 mediaCommandSuccess();
                 if (onSuccess) onSuccess();
             } , function (e) {
