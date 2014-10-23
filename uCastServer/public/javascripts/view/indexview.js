@@ -35,12 +35,40 @@
                 });
             }
 );
+            
+            $("#imgStop").click(stopMedia);
+            $("#imgPlayPause").click(pauseMedia);
+
             castApp.onSessionDestroyed = function () {
                 $(".player").hide();
             };
         
-        });
-       
+        }
+);
+        
+        var stopMedia = function () {
+            castApp.stopMedia(function (e) {
+                $(".player").hide();
+            }, function (e) {
+                console.log("Could not stop playback");
+            });
+        };
+        var pauseMedia = function () {
+            castApp.pauseMedia(function (e) {
+                $("#imgPlayPause").attr("src" , "../../images/play.png");
+                $("#imgPlayPause").click(resumeMedia);
+            }, function (e) {
+                console.log("Could not pause playback");
+            });
+        };
+        var resumeMedia = function () {
+            castApp.playMedia(function (e) {
+                $("#imgPlayPause").attr("src" , "../../images/pause.png");
+                $("#imgPlayPause").click(pauseMedia);
+            }, function (e) {
+                console.log("Could not pause playback");
+            });
+        };
         var castMe = function (fileName, index) {
             var path = $("input[name='dirLocation']").val();
             var fileInfo = _.filter(arrFiles , function (f) { return f.FileName == fileName; });

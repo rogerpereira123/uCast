@@ -76,6 +76,18 @@
                 if (onError) onError();
             });
         }
+        this.stopMedia = function (onSuccess , onError) {
+            if (!currentMedia) return;
+            currenMedia.stop(null, onSuccess, onError);
+        };
+        this.pauseMedia = function (onSuccess, onError) {
+            if (!currentMedia) return;
+            currenMedia.pause(null, onSuccess, onError);
+        };
+        this.playMedia = function (onSuccess, onError) {
+            if (!currentMedia) return;
+            currenMedia.play(null, onSuccess, onError);
+        };
         var mediaCommandSuccess = function () { 
 
             console.log("media play command success");
