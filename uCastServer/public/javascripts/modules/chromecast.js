@@ -77,16 +77,16 @@
             });
         }
         this.stopMedia = function (onSuccess , onError) {
-            if (!currentMedia) return;
-            currenMedia.stop(null, onSuccess, onError);
+            if (!this.currentMedia) return;
+            this.currentMedia.stop(null, onSuccess, onError);
         };
         this.pauseMedia = function (onSuccess, onError) {
-            if (!currentMedia) return;
-            currenMedia.pause(null, onSuccess, onError);
+            if (!this.currentMedia) return;
+            this.currentMedia.pause(null, onSuccess, onError);
         };
         this.playMedia = function (onSuccess, onError) {
-            if (!currentMedia) return;
-            currenMedia.play(null, onSuccess, onError);
+            if (!this.currentMedia) return;
+            this.currentMedia.play(null, onSuccess, onError);
         };
         var mediaCommandSuccess = function () { 
 

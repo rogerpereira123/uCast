@@ -6,17 +6,22 @@ block content
         td
             img(class="logo")
   hr
-  table(cellspacing="2",cellpadding="3")
+  div
+    table(cellspacing="3",cellpadding="1")
            tr
+               
                 td
-                    span Look For:
+                    select(id="ddlTypeOfMedia", name="ddlTypeOfMedia")
+                        option(value="video" selected="selected") Videos
+                        option(value="audio") Songs
+                        option(value="image") Photos
+
+
+               
                 td
-                    select(id="ddlTypeOfMedia")
-                td  
-                    span Path:
+                    input(type="text",placeholder="Enter Path", name="dirLocation",size="80") 
                 td
-                    input(type="text", name="dirLocation",size="100") 
-                    input(type="button",name="findFiles",value="Find")
+                    input(type="button", name="findFiles",value="Find")
                 td
                     img(class="caston" , src="../images/casticon_on.png") 
 

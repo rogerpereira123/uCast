@@ -3,6 +3,7 @@
         var castApp = new castapp(function () {
             $(".caston").attr("src" , "../images/casticon_on.png");
             $(".caston").show();
+            $(".caston").button();
         });
         var arrFiles = [];
         var progressBar = {};
@@ -19,10 +20,11 @@
                     //alert("Videos wont play unless you cast using Cast Icon...!");
                 });
             });
-            $("#ddlTypeOfMedia").append('<option value="video">Videos</option>');
-            $("#ddlTypeOfMedia").append('<option value="audio">Songs</option>');
-            $("#ddlTypeOfMedia").append('<option value="image">Photos</option>');
-            $("input[name='findFiles']").click(function () {
+            
+           
+            $("#ddlTypeOfMedia").selectmenu();
+            
+            $("input[name='findFiles']").button().click(function () {
                 var path = $("input[name='dirLocation']").val();
                 var url = "http://" + $(location).attr('host') + "/ls?q=" + path + "&t=" + $('#ddlTypeOfMedia').val();
                 $.get(url, function (files) {
@@ -36,8 +38,8 @@
             }
 );
             
-            $("#imgStop").click(stopMedia);
-            $("#imgPlayPause").click(pauseMedia);
+            $("#imgStop").click(function () { stopMedia(); });
+            $("#imgPlayPause").click(function () { pauseMedia(); });
 
             castApp.onSessionDestroyed = function () {
                 $(".player").hide();
@@ -51,6 +53,7 @@
                 $(".player").hide();
             }, function (e) {
                 console.log("Could not stop playback");
+                $(".player").hide();
             });
         };
         var pauseMedia = function () {
@@ -59,6 +62,7 @@
                 $("#imgPlayPause").click(resumeMedia);
             }, function (e) {
                 console.log("Could not pause playback");
+                $(".player").hide();
             });
         };
         var resumeMedia = function () {
@@ -67,6 +71,7 @@
                 $("#imgPlayPause").click(pauseMedia);
             }, function (e) {
                 console.log("Could not pause playback");
+                $(".player").hide();
             });
         };
         var castMe = function (fileName, index) {
@@ -100,6 +105,8 @@
             }
             else if(castApp.session)
                 setTimeout(progress, 1000);
+            else
+                $(".player").hide();
         };
        
         
