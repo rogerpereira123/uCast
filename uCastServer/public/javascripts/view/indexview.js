@@ -26,6 +26,7 @@
             
             $("input[name='findFiles']").button().click(function () {
                 var path = $("input[name='dirLocation']").val();
+                path = encodeURIComponent(path);
                 var url = "http://" + $(location).attr('host') + "/ls?q=" + path + "&t=" + $('#ddlTypeOfMedia').val();
                 $.get(url, function (files) {
                     arrFiles = files;
@@ -77,7 +78,8 @@
         var castMe = function (fileName, index) {
             var path = $("input[name='dirLocation']").val();
             var fileInfo = _.filter(arrFiles , function (f) { return f.FileName == fileName; });
-            var mediaUrl = "http://" + $(location).attr('host') + "/streamer?q=" + path + "\\" + fileName;
+            var finalPath = encodeURIComponent(path + "\\" + fileName);
+            var mediaUrl = "http://" + $(location).attr('host') + "/streamer?q=" + finalPath;
             castApp.uCast(mediaUrl , fileInfo[0].ContentType , function () {
                 initPlayer(fileName);
                 
@@ -92,9 +94,11 @@
         };
         var progress = function () {
             var val = progressBar.progressbar("value") || 0;
-            if (castApp.currentMedia && castApp.currentMedia.media && castApp.currentMedia.media.duration != null) {
+            if (castApp.currentMedia && castApp.currentMedia.media) {
+                var duration = castApp.currentMedia.media.duration;
+              
                 var currentTime = castApp.currentMedia.getEstimatedTime();
-                var progressValue = parseInt(100 * currentTime / castApp.currentMedia.media.duration);
+                var progressValue = parseInt(100 * currentTime / duration);
                 progressBar.progressbar("value",  progressValue);
                 
                 if (val <= 99) {

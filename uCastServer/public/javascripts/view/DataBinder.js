@@ -1,7 +1,7 @@
 ﻿define(["jquery" ,  "underscore" , "datatables" , ], function ($, _, dt) { 
     $.bindFiles = function (arrFiles , castMe) {
         $('.files').html('<table id="tblFiles" class="display" cellspacing="0" width="100%"></table>');
-        var data = "<thead><tr><th align='left'>File Name</th></tr></thead>";
+        var data = "<thead><tr><th align='left' valign='bottom'><input type='checkbox' id='chkSelectAll'> File Name</th></tr></thead>";
         $('#tblFiles').append(data);
         var d = _.map(arrFiles , function (f) { return [f.FileName]; });
         $('#tblFiles').dataTable({
