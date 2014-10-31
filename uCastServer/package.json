@@ -1,7 +1,7 @@
 {
-  "name": "uCastServer",
+  "name": "uCast",
   "version": "0.0.0",
-  "description": "uCastServer",
+  "description": "A chromecast app to cast local media",
   "main": "app.js",
   "author": {
     "name": "roger.pereira",
@@ -12,6 +12,7 @@
     "jade": "*",
     "stylus": "*",
 	"jquery" : "*",
-	"underscore" :"*"
+    "underscore": "*",
+    "id3js" :  "*"
   }
 }

@@ -34,9 +34,13 @@
     <Compile Include="app.js" />
     <Compile Include="modules\filefilter.js" />
     <Compile Include="modules\mediaconfig.js" />
+    <Compile Include="modules\metadata.js" />
+    <Compile Include="public\javascripts\libs\id3.js" />
+    <Compile Include="public\javascripts\libs\id3.min.js" />
     <Compile Include="public\javascripts\libs\jquery-ui.min.js" />
     <Compile Include="public\javascripts\libs\underscore-min.js" />
     <Compile Include="public\javascripts\modules\chromecast.js" />
+    <Compile Include="public\javascripts\modules\metadata.js" />
     <Compile Include="public\javascripts\view\DataBinder.js" />
     <Compile Include="routes\api\streamer.js" />
     <Compile Include="public\javascripts\config.js" />

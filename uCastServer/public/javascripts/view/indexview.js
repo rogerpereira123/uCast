@@ -1,5 +1,6 @@
 ﻿require(["../config"], function (config) {
-    require(["jquery" ,"jqueryui", "underscore" ,"chromecast",  "databinder"], function ($ ,jqui, _, castapp, binder) {
+    require(["jquery" ,"jqueryui", "underscore" ,"chromecast",  "databinder" , "modules/metadata"], 
+        function ($ , jqui, _, castapp, binder, metadata) {
         var castApp = new castapp(function () {
             $(".caston").attr("src" , "../images/casticon_on.png");
             $(".caston").show();
@@ -80,10 +81,22 @@
             var fileInfo = _.filter(arrFiles , function (f) { return f.FileName == fileName; });
             var finalPath = encodeURIComponent(path + "\\" + fileName);
             var mediaUrl = "http://" + $(location).attr('host') + "/streamer?q=" + finalPath;
-            castApp.uCast(mediaUrl , fileInfo[0].ContentType , function () {
-                initPlayer(fileName);
+            if (fileInfo[0].ContentType.indexOf("audio") != -1) { 
+                //Try get metadata
+                metadata.getMp3MetaData(mediaUrl , function (tags) {
+                    castApp.uCast(mediaUrl , fileInfo[0].ContentType , function () {
+                        initPlayer(fileName);
                 
-            });
+                    }, function () { },{ MetaDataTags : tags });
+
+                }, function () { });
+            }
+            else {
+                castApp.uCast(mediaUrl , fileInfo[0].ContentType , function () {
+                    initPlayer(fileName);
+                
+                });
+            }
         }
         var initPlayer = function (fileName) {
             $(".playerHeader").text("Now Playing " + fileName);

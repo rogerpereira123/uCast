@@ -1,4 +1,4 @@
-﻿define(["jquery" , "cast_sender"] , function ($, castsender) {
+﻿define(["jquery" , "cast_sender"] , function ($, castsender ) {
     var castapp = function (onCastApiInitialized) {
         this.session;
         var currentMediaUrl = "";
@@ -47,12 +47,22 @@
         /*var onLaunchError = function (e) { 
             console.log("There was an error launching cast extension: " + e.code);
         };*/
-        this.uCast = function (url, contentType, onSuccess, onError) {
+        var getMetaDataFromTags = function (tags) {
+            var metadata = new chrome.cast.media.MusicTrackMediaMetadata();
+            metadata.metadataType = chrome.cast.media.MetadataType.MUSIC_TRACK;
+            metadata.albumName = tags.album;
+            metadata.artist = tags.artist;
+            metadata.releaseDate = tags.year;
+            metadata.title = tags.title;
+             
+            return metadata;
+        };
+        this.uCast = function (url, contentType, onSuccess, onError , options) {
             __me.setMediaUrl(url);
            
             console.log("Media Url: " + currentMediaUrl);
             var mediaInfo = new chrome.cast.media.MediaInfo(currentMediaUrl , contentType);
-  
+            if (options.MetaDataTags) mediaInfo.metadata = getMetaDataFromTags(options.MetaDataTags);    
             var request = new chrome.cast.media.LoadRequest(mediaInfo);
             request.autoplay = true;
             request.currentTime = 0;
