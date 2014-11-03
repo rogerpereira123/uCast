@@ -42,6 +42,7 @@
     <Compile Include="public\javascripts\modules\chromecast.js" />
     <Compile Include="public\javascripts\modules\metadata.js" />
     <Compile Include="public\javascripts\view\DataBinder.js" />
+    <Compile Include="routes\api\meta.js" />
     <Compile Include="routes\api\streamer.js" />
     <Compile Include="public\javascripts\config.js" />
     <Compile Include="public\javascripts\libs\jquery.dataTables.min.js" />

@@ -8,6 +8,7 @@ var routes = require('./routes');
 var user = require('./routes/user');
 var lsfilter = require('./routes/api/lsfilter');
 var streamer = require('./routes/api/streamer');
+var meta = require('./routes/api/meta');
 
 var http = require('http');
 var path = require('path');
@@ -37,6 +38,7 @@ app.get('/', routes.index);
 app.get('/users', user.list);
 app.get('/ls' , lsfilter.ls);
 app.get('/streamer' , streamer.stream);
+app.get('/metadata' , meta.metadata);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));

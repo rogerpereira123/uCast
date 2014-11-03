@@ -6,7 +6,7 @@
                 callback(err);
                 return;
             }
-            callback(tags);
+            callback(null,tags);
         });
     
     

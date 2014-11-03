@@ -1,12 +1,9 @@
-﻿define([ 'id3'], function (id3) {
+﻿define([], function () {
     var metadata = function () { 
     };
-    metadata.getMp3MetaData = function (mp3Url, onsuccess, onerror) {
-        id3(mp3Url , function (err, tags) { 
-            if (err) {
-                onerror(err);
-                return;
-            }
+    metadata.getMp3MetaData = function (fileNameWithPath, onsuccess) {
+        var url = "http://" + $(location).attr('host') + "/metadata?q=" + encodeURIComponent(fileNameWithPath);
+        $.get(url, function (tags) { 
             onsuccess(tags);
         });
     };

@@ -11,7 +11,7 @@
         else {
             var ls = _.chain(data)
                         .filter(function (f) { return _.indexOf(extArray, path.extname(f)) > -1; })
-                        .map(function (f) { return { 'FileName' : f, 'ContentType' : config.mediaconfig.getContentTypeFromFileName(f) }; })
+                        .map(function (f) { return {'Path' : dirpath,  'FileName' : f, 'ContentType' : config.mediaconfig.getContentTypeFromFileName(f) }; })
                         .value();
             callback(null , ls);
         }

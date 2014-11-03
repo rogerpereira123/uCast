@@ -81,15 +81,16 @@
             var fileInfo = _.filter(arrFiles , function (f) { return f.FileName == fileName; });
             var finalPath = encodeURIComponent(path + "\\" + fileName);
             var mediaUrl = "http://" + $(location).attr('host') + "/streamer?q=" + finalPath;
-            if (fileInfo[0].ContentType.indexOf("audio") != -1) { 
+            if (fileInfo[0].ContentType.indexOf("audio") != -1) {
                 //Try get metadata
-                metadata.getMp3MetaData(mediaUrl , function (tags) {
+                var fileNameWithPath = fileInfo[0].Path + '\\' + fileName; 
+                metadata.getMp3MetaData(fileNameWithPath , function (tags) {
                     castApp.uCast(mediaUrl , fileInfo[0].ContentType , function () {
                         initPlayer(fileName);
                 
                     }, function () { },{ MetaDataTags : tags });
 
-                }, function () { });
+                });
             }
             else {
                 castApp.uCast(mediaUrl , fileInfo[0].ContentType , function () {
