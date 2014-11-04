@@ -51,3 +51,10 @@ a {
   height: 30px;
   cursor: pointer;
 }
+.playselected {
+  display: none;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+}
