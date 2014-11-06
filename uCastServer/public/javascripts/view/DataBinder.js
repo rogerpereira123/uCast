@@ -26,7 +26,17 @@
         $("#playselected").attr("src" , "../images/playselected.png");
         //$("#playselected").button();
 
-
+        $(".selectFile").click(function () {
+            $('.headerFiles').html("Following files found");
+            $("#playselected").hide();
+            $(".selectFile").each(function () {
+                
+                if (this.checked) {
+                    $('.headerFiles').html("Play Selected: ");
+                    $("#playselected").show();
+                }
+            });
+        });
         $("#chkSelectAll").click(function () {
             if ($("#chkSelectAll").is(":checked")) {
                 $(".selectFile").prop("checked" , true);
