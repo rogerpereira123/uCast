@@ -1,4 +1,4 @@
-﻿define(["jquery" ,  "underscore" , "datatables" , ], function ($, _, dt) { 
+﻿define(["jquery" ,  "underscore" , "datatables" ], function ($, _, dt) { 
     $.bindFiles = function (arrFiles , castMe) {
         $('.files').html('<table id="tblFiles" class="display" cellspacing="0" width="100%"></table>');
         var data = "<thead><tr><th align='left' valign='top' style='height:24px;'>";
@@ -36,18 +36,40 @@
                     $("#playselected").show();
                 }
             });
+
+            $.SelectedFiles = $.SelectedFiles || [];
+            var chkBox = this;
+            if (this.checked) $.SelectedFiles.push(arrFiles[parseInt(this.id.replace("chk" , ""))]);
+            else _.each($.SelectedFiles , function (f,i) { 
+                if (f.FileName === arrFiles[parseInt(chkBox.id.replace("chk" , ""))].FileName)
+                    $.SelectedFiles.splice(i , 1);
+            });
         });
         $("#chkSelectAll").click(function () {
             if ($("#chkSelectAll").is(":checked")) {
                 $(".selectFile").prop("checked" , true);
                 $('.headerFiles').html("Play Selected: ");
                 $("#playselected").show();
+
+               
             }
             else {
                 $(".selectFile").prop("checked" , false);
                 $('.headerFiles').html("Following files found");
                 $("#playselected").hide();
             }
+            $.SelectedFiles = $.SelectedFiles || [];
+            $(".selectFile").each(function () {
+                var chkBox = this;
+                if (this.checked) {
+                    if(_.where($.SelectedFiles, { FileName : arrFiles[parseInt(this.id.replace("chk" , ""))].FileName }).length == 0)
+                        $.SelectedFiles.push(arrFiles[parseInt(this.id.replace("chk" , ""))]);
+                }
+                else _.each($.SelectedFiles , function (f, i) {
+                    if (f.FileName === arrFiles[parseInt(chkBox.id.replace("chk" , ""))].FileName)
+                        $.SelectedFiles.splice(i , 1);
+                });
+            });
         });
             
     };
