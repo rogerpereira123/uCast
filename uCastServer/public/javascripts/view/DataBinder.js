@@ -40,8 +40,9 @@
             $.SelectedFiles = $.SelectedFiles || [];
             var chkBox = this;
             if (this.checked) $.SelectedFiles.push(arrFiles[parseInt(this.id.replace("chk" , ""))]);
-            else _.each($.SelectedFiles , function (f,i) { 
-                if (f.FileName === arrFiles[parseInt(chkBox.id.replace("chk" , ""))].FileName)
+            else _.each($.SelectedFiles , function (f, i) { 
+                
+                if (f && f.FileName === arrFiles[parseInt(chkBox.id.replace("chk" , ""))].FileName)
                     $.SelectedFiles.splice(i , 1);
             });
         });
@@ -57,6 +58,7 @@
                 $(".selectFile").prop("checked" , false);
                 $('.headerFiles').html("Following files found");
                 $("#playselected").hide();
+                $.SelectedFiles = [];
             }
             $.SelectedFiles = $.SelectedFiles || [];
             $(".selectFile").each(function () {
@@ -65,10 +67,7 @@
                     if(_.where($.SelectedFiles, { FileName : arrFiles[parseInt(this.id.replace("chk" , ""))].FileName }).length == 0)
                         $.SelectedFiles.push(arrFiles[parseInt(this.id.replace("chk" , ""))]);
                 }
-                else _.each($.SelectedFiles , function (f, i) {
-                    if (f.FileName === arrFiles[parseInt(chkBox.id.replace("chk" , ""))].FileName)
-                        $.SelectedFiles.splice(i , 1);
-                });
+                
             });
         });
             

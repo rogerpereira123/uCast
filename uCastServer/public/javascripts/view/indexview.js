@@ -25,7 +25,7 @@
            
             $("#ddlTypeOfMedia").selectmenu();
             
-            $("input[name='findFiles']").button().click(function () {
+            $("button[name='findFiles']").click(function () {
                 var path = $("input[name='dirLocation']").val();
                 path = encodeURIComponent(path);
                 var url = "http://" + $(location).attr('host') + "/ls?q=" + path + "&t=" + $('#ddlTypeOfMedia').val();

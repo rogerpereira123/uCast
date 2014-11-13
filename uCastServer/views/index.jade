@@ -6,27 +6,32 @@ block content
         td
             img(class="logo")
   hr
-  div
-    table(cellspacing="3",cellpadding="1")
-           tr
-               
-                td
-                    select(id="ddlTypeOfMedia", name="ddlTypeOfMedia")
-                        option(value="video" selected="selected") Videos
-                        option(value="audio") Songs
-                        option(value="image") Photos
+  div.container-fluid
+    form(class='form-inline' , role='form')
+      
+                    div.form-group
+                        select.form-control(id="ddlTypeOfMedia", name="ddlTypeOfMedia")
+                            option(value="video" selected="selected") Videos
+                            option(value="audio") Songs
+                            option(value="image") Photos
 
 
                
-                td
-                    input(type="text",placeholder="Enter Path", name="dirLocation",size="80") 
-                td
-                    input(type="button", name="findFiles",value="Find")
-                td
-                    img(class="caston" , src="../images/casticon_on.png") 
+                
+                    div.form-group
+                        input(type="text",placeholder="Enter Path", class='form-control', name="dirLocation",size="80") 
+                
+                    div.form-group
+                        button(type="button", name="findFiles" , class='btn btn-primary')
+                            i(class="glyphicon glyphicon-search") 
+                            |Find
+                             
+                
+                    div.form-group
+                        img(class="caston" , src="../images/casticon_on.png") 
 
   
-  div.player
+  div(class="player container-fluid")
     table(cellspacing="3",cellpadding="3",width="100%")
         tr
             td
@@ -43,10 +48,11 @@ block content
                        td(width="90%")
                           div(id="progressbar", style="height:20px")
   br
-  table
-    tr
-        td
-            h4.headerFiles
-        td  
-            img.playselected(id='playselected', alt='Play Selected')
-  div.files
+  div.container-fluid
+      table
+        tr
+            td
+                h4.headerFiles
+            td  
+                img.playselected(id='playselected', alt='Play Selected')
+  div(class="files container-fluid")
