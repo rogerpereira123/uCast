@@ -16,7 +16,11 @@ var path = require('path');
 var app = express();
 
 // all environments
-app.set("domain" , "192.168.0.7");
+require('./modules/ip').getIP(function (err, ip) {
+    if (err) ip = "127.0.0.1";
+    app.set("domain" , ip);    
+});
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');

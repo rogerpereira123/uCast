@@ -33,6 +33,7 @@
   <ItemGroup>
     <Compile Include="app.js" />
     <Compile Include="modules\filefilter.js" />
+    <Compile Include="modules\ip.js" />
     <Compile Include="modules\mediaconfig.js" />
     <Compile Include="modules\metadata.js" />
     <Compile Include="public\javascripts\libs\id3.js" />
