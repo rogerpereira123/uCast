@@ -26,6 +26,7 @@ table.logocontainer td {
 }
 .player {
   display: none;
+  margin: 5px 5px;
   border: 1px solid;
   border-radius: 5px;
 }
@@ -58,8 +59,6 @@ a {
   width: 24px;
   height: 24px;
 }
- .form-inline div> * 
- {
-           text-align:left;
-           margin:5px 3px;
- }
+.form-inline > * {
+  margin: 5px 3px;
+}
