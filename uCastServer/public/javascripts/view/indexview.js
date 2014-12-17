@@ -10,9 +10,9 @@
         var progressBar = {};
         var playerTimer = {};
         $(document).ready(function () {
-            $(".player").hide();
-            //$("#progressbar").progressbar();
-           //$(".playerHeader").text("Now Playing Big Boss");
+                $(".player").show();
+            $("#progressbar").progressbar();
+           $(".playerHeader").text("Now Playing Big Boss");
             $(".caston").click(function () {
                 castApp.requestSession(function (){
                     $(".caston").attr("src" , "../images/casticon_on.png");
@@ -113,6 +113,7 @@
               
                 var currentTime = castApp.currentMedia.getEstimatedTime();
                 var progressValue = parseInt(100 * currentTime / duration);
+                console.log('Progress Value: ' + progressValue);
                 progressBar.progressbar("value",  progressValue);
                 
                 if (val <= 99) {

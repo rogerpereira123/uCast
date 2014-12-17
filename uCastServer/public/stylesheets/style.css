@@ -24,17 +24,17 @@ hr {
 table.logocontainer td {
   text-align: left;
 }
+.playercontainer,
 .player {
   display: none;
-  margin: 5px 5px;
+  margin: 5px;
   border: 1px solid;
   border-radius: 5px;
+  border-color: #d3d3d3;
+  width: 100%;
 }
 select {
   width: 200px;
-}
-div.player table {
-  width: 100%;
 }
 .mediacontrol {
   cursor: pointer;

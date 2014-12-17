@@ -21,19 +21,19 @@ block content
                             |&nbsp;Find
                     div.form-group
                         img(class="caston" , src="../images/casticon_on.png") 
-  br  
+  br
   div.container-fluid
-      div(class="player")
-        div.container-fluid
-          span.playerHeader(class="text-primary")
-       
-        div.container-fluid(class="form-inline",role="form")
-          div.form-group
-              img.mediacontrol(id="imgStop", src="../images/stop.png")
-          div.form-group
-              img.mediacontrol(id="imgPlayPause", src ="../images/pause.png")
-          div.form-group
-              div(id="progressbar", style="height:20px")
+      table(class="player")
+        tr
+          td(colspan="3")
+              span.playerHeader(class="text-primary")
+        tr
+          td(width="2%")
+            img.mediacontrol(id="imgStop", src="../images/stop.png")
+          td(width="2%")
+            img.mediacontrol(id="imgPlayPause", src ="../images/pause.png") 
+          td(width="96%")        
+            div(id="progressbar", style="height:20px;")
   br
   div.container-fluid
       table
