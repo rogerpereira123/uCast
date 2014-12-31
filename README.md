@@ -12,7 +12,9 @@ Roger Pereira
 - Stylus
 
 ## Mechanics
+
 This is how it works:
+
 1. User selects type of media to play (video / audio) and specifies the location
 2. A Node.JS - Express web server provides playable list of files from the specified location
 3. User initiates a Chromecast Session using Cast Icon
