@@ -10,9 +10,9 @@
         var progressBar = {};
         var playerTimer = {};
         $(document).ready(function () {
-                $(".player").show();
+                $(".player").hide();
             $("#progressbar").progressbar();
-           $(".playerHeader").text("Now Playing Big Boss");
+          // $(".playerHeader").text("Now Playing Big Boss");
             $(".caston").click(function () {
                 castApp.requestSession(function (){
                     $(".caston").attr("src" , "../images/casticon_on.png");
