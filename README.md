@@ -40,6 +40,6 @@ This is how it works:
 - Adding support for images
 
 ## Final Word
-uCast is developed as a side project for fun & learning Chromecast API with other open source technologies and is no way intented to be used for any business / commercial use. Please read Google's terms and conditions for commercial development.
+uCast is developed as a side project for fun & learning Chromecast API with other open source technologies and is no way intended to be used for any business / commercial use. Please read Google's terms and conditions for commercial development.
 
 
