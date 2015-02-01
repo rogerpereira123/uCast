@@ -35,7 +35,12 @@
                     if (files.length > 0) $('.headerFiles').html("Following files found");
                     else $('.headerFiles').html("No playable files found:");
                     $.bindFiles(arrFiles, castMe);
-                    
+                    $("#playselected").hide();
+                    $("#playselected").attr("src" , "../images/playselected.png");
+                    $("#playselected").click(function () { playselected(); });
+                    $("#chkSelectAll").click(function () {
+                        selectAllClicked();
+                    });
                 });
             }
 );
@@ -46,11 +51,22 @@
             castApp.onSessionDestroyed = function () {
                 $(".player").hide();
             };
+            
         
         }
-);
-        
+    );
+        var playselected = function () {
+            if ($.SelectedFiles && $.SelectedFiles.length > 0 && $.MediaState != "STOPPED") {
+                castMe($.SelectedFiles[0].FileName);
+                $.SelectedFiles.splice(0 , 1);
+            }
+            else
+                $(".player").hide();
+        };
         var stopMedia = function () {
+            
+            $.MediaState = "STOPPED";
+            $(".player").hide();
             castApp.stopMedia(function (e) {
                 $(".player").hide();
             }, function (e) {
@@ -59,6 +75,7 @@
             });
         };
         var pauseMedia = function () {
+            $.MediaState = "PAUSED";
             castApp.pauseMedia(function (e) {
                 $("#imgPlayPause").attr("src" , "../../images/play.png");
                 $("#imgPlayPause").click(resumeMedia);
@@ -68,6 +85,7 @@
             });
         };
         var resumeMedia = function () {
+            $.MediaState = "PLAYING";
             castApp.playMedia(function (e) {
                 $("#imgPlayPause").attr("src" , "../../images/pause.png");
                 $("#imgPlayPause").click(pauseMedia);
@@ -76,7 +94,7 @@
                 $(".player").hide();
             });
         };
-        var castMe = function (fileName, index) {
+        var castMe = function (fileName) {
             var path = $("input[name='dirLocation']").val();
             var fileInfo = _.filter(arrFiles , function (f) { return f.FileName == fileName; });
             var finalPath = encodeURIComponent(path + "\\" + fileName);
@@ -86,6 +104,7 @@
                 var fileNameWithPath = fileInfo[0].Path + '\\' + fileName; 
                 metadata.getMp3MetaData(fileNameWithPath , function (tags) {
                     castApp.uCast(mediaUrl , fileInfo[0].ContentType , function () {
+                        $.MediaState = "PLAYING";
                         initPlayer(fileName);
                 
                     }, function () { },{ MetaDataTags : tags });
@@ -103,7 +122,7 @@
             $(".playerHeader").text("Now Playing " + fileName);
             $("#imgPlayPause").attr("src" , "../../images/pause.png");
             progressBar = $("#progressbar").progressbar();
-            playerTimer = setTimeout(progress, 500);
+            playerTimer = setTimeout(progress, 100);
             $(".player").show();
         };
         var progress = function () {
@@ -113,20 +132,75 @@
               
                 var currentTime = castApp.currentMedia.getEstimatedTime();
                 var progressValue = parseInt(100 * currentTime / duration);
-                console.log('Progress Value: ' + progressValue);
+                console.log("Duration: " + duration);
+                console.log("Current Time: " + currentTime);
+                console.log("Progress Value: " + progressValue);
+               
                 progressBar.progressbar("value",  progressValue);
                 
                 if (val <= 99) {
-                    progressTimer = setTimeout(progress, 500);
+                    if (castApp.currentMedia.playerState != "IDLE")
+                        progressTimer = setTimeout(progress, 100);
+                    else {
+                        playselected();
+                    }
                 }
-                else
-                    $(".player").hide();
+               
             }
-            else if(castApp.session)
-                setTimeout(progress, 1000);
+            else if (castApp.session) {
+                
+               setTimeout(progress, 1000);
+            }
             else
                 $(".player").hide();
         };
+
+        
+        $(".selectFile").click(function () {
+            $('.headerFiles').html("Following files found");
+            $("#playselected").hide();
+            $(".selectFile").each(function () {
+                
+                if (this.checked) {
+                    $('.headerFiles').html("Play Selected: ");
+                    $("#playselected").show();
+                }
+            });
+            
+            $.SelectedFiles = $.SelectedFiles || [];
+            var chkBox = this;
+            if (this.checked) $.SelectedFiles.push(arrFiles[parseInt(this.id.replace("chk" , ""))]);
+            else _.each($.SelectedFiles , function (f, i) {
+                
+                if (f && f.FileName === arrFiles[parseInt(chkBox.id.replace("chk" , ""))].FileName)
+                    $.SelectedFiles.splice(i , 1);
+            });
+        });
+        var selectAllClicked = function () {
+            if ($("#chkSelectAll").is(":checked")) {
+                $(".selectFile").prop("checked" , true);
+                $('.headerFiles').html("Play Selected: ");
+                $("#playselected").show();
+
+               
+            }
+            else {
+                $(".selectFile").prop("checked" , false);
+                $('.headerFiles').html("Following files found");
+                $("#playselected").hide();
+                $.SelectedFiles = [];
+            }
+            $.SelectedFiles = $.SelectedFiles || [];
+            $(".selectFile").each(function () {
+                var chkBox = this;
+                if (this.checked) {
+                    if (_.where($.SelectedFiles, { FileName : arrFiles[parseInt(this.id.replace("chk" , ""))].FileName }).length == 0)
+                        $.SelectedFiles.push(arrFiles[parseInt(this.id.replace("chk" , ""))]);
+                }
+                
+            });
+        };
+        
        
     });
 });
