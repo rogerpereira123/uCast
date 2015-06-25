@@ -35,12 +35,14 @@
                     if (files.length > 0) $('.headerFiles').html("Following files found");
                     else $('.headerFiles').html("No playable files found:");
                     $.bindFiles(arrFiles, castMe);
+                    $(".selectFile").click(function () { selectFileChecked(); });
                     $("#playselected").hide();
                     $("#playselected").attr("src" , "../images/playselected.png");
                     $("#playselected").click(function () { playselected(); });
                     $("#chkSelectAll").click(function () {
                         selectAllClicked();
                     });
+                    
                 });
             }
 );
@@ -58,10 +60,15 @@
         var playselected = function () {
             if ($.SelectedFiles && $.SelectedFiles.length > 0 && $.MediaState != "STOPPED") {
                 castMe($.SelectedFiles[0].FileName);
+                $.SelectedFilesBak = $.SelectedFilesBak || [];
+                $.SelectedFilesBak.push($.SelectedFiles[0]);
                 $.SelectedFiles.splice(0 , 1);
             }
-            else
+            else {
                 $(".player").hide();
+                $.SelectedFiles = $.SelectedFilesBak;
+                $.SelectedFilesBak = [];
+            }
         };
         var stopMedia = function () {
             
@@ -132,9 +139,9 @@
               
                 var currentTime = castApp.currentMedia.getEstimatedTime();
                 var progressValue = parseInt(100 * currentTime / duration);
-                console.log("Duration: " + duration);
+                /*console.log("Duration: " + duration);
                 console.log("Current Time: " + currentTime);
-                console.log("Progress Value: " + progressValue);
+                console.log("Progress Value: " + progressValue);*/
                
                 progressBar.progressbar("value",  progressValue);
                 
@@ -154,28 +161,32 @@
             else
                 $(".player").hide();
         };
-
-        
-        $(".selectFile").click(function () {
+        var selectFileChecked = function () {
             $('.headerFiles').html("Following files found");
             $("#playselected").hide();
+            $.SelectedFiles = $.SelectedFiles || [];
             $(".selectFile").each(function () {
-                
+                var chkBox = this;
                 if (this.checked) {
                     $('.headerFiles').html("Play Selected: ");
                     $("#playselected").show();
+                    if(_.where($.SelectedFiles , { FileName : arrFiles[parseInt(chkBox.id.replace("chk" , ""))].FileName}).length == 0)
+                        $.SelectedFiles.push(arrFiles[parseInt(this.id.replace("chk" , ""))]);
                 }
+                else _.each($.SelectedFiles , function (f, i) {
+                    
+                    if (f && f.FileName === arrFiles[parseInt(chkBox.id.replace("chk" , ""))].FileName)
+                        $.SelectedFiles.splice(i , 1);
+                });
             });
             
-            $.SelectedFiles = $.SelectedFiles || [];
-            var chkBox = this;
-            if (this.checked) $.SelectedFiles.push(arrFiles[parseInt(this.id.replace("chk" , ""))]);
-            else _.each($.SelectedFiles , function (f, i) {
-                
-                if (f && f.FileName === arrFiles[parseInt(chkBox.id.replace("chk" , ""))].FileName)
-                    $.SelectedFiles.splice(i , 1);
-            });
-        });
+            
+            
+             
+            
+        };
+        
+        
         var selectAllClicked = function () {
             if ($("#chkSelectAll").is(":checked")) {
                 $(".selectFile").prop("checked" , true);
