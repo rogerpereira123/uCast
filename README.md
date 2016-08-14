@@ -1,8 +1,8 @@
-﻿# uCast 
+﻿# uCast
 A node based app for Google Chromecast to stream local computer videos / audio files to Chromecast connected TV.
 <hr>
 ## Author
-Roger Pereira 
+Roger Pereira
 ## Stack
 - Node.JS
 - Express
@@ -29,17 +29,15 @@ This is how it works:
    http://[your computer ip]:3000
 
 ## Gotchas
-* This is a Chromecast Sender app for Google Chrome Browser and hence can only work on Google Chrome with Cast Extension installed. 
-* It uses default receiver app provided by Chromecast (Yup! You can develop your own receiver app like Netflix or Youtube etc.) 
+* This is a Chromecast Sender app for Google Chrome Browser and hence can only work on Google Chrome with Cast Extension installed.
+* It uses default receiver app provided by Chromecast (Yup! You can develop your own receiver app like Netflix or Youtube etc.)
 * After starting the server, browsing with localhost wont work because Chromecast needs the media file url hosted on local network. So browse using your computer's local ip address.
 * Oh and you have to register your Chromecast and receive an app id to run this app. <a href="https://developers.google.com/cast/docs/chrome_sender">More info</a>
-* uCast works with mp4s & mp3s perfectly fine. Here is a link to all supported media : <a href="https://developers.google.com/cast/docs/media">Chromecast Supported Media</a> 
+* uCast works with mp4s & mp3s perfectly fine. Here is a link to all supported media : <a href="https://developers.google.com/cast/docs/media">Chromecast Supported Media</a>
 
 ## To Do
-- Playing multiple files based on user choice. 
+- Playing multiple files based on user choice.
 - Adding support for images
 
 ## Final Word
-uCast is developed as a side project for fun & learning Chromecast API with other open source technologies and is no way intended to be used for any business / commercial use. Please read Google's terms and conditions for commercial development.
-
-
+uCast is developed as a side project for fun with the objective of learning Chromecast API with other open source technologies and is no way intended to be used for any business / commercial use. Please read Google's terms and conditions for commercial development.
